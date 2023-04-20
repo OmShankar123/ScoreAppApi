@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "805890993278",
+    "firebase_url": "https://scoreapp-850e3-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "scoreapp-850e3",
+    "storage_bucket": "scoreapp-850e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805890993278:android:c8b54893491e0759cbbc2f",
+        "android_client_info": {
+          "package_name": "com.scoreapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805890993278-os4vubpod7o5v2hsm272oa7hp4bh00n0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scoreapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "805890993278-c2ttoalqpnuk72fkjnfnetind89b9mr9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyQO1Pybz6PXo7XPJcIW1pzvGjSslwyOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805890993278-c2ttoalqpnuk72fkjnfnetind89b9mr9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
