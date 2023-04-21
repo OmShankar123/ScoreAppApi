@@ -24,10 +24,17 @@ const ScoreScreen = () => {
         setIsConnected(isConnected);
         if (isConnected) {
             uploadLocalScores();
+            fetchScores();
         }
     };
 
+      useEffect(() => {
+        fetchScores();
+    }, []);
+
+
     useEffect(() => {
+        //   fetchScores();
         const unsubscribe = NetInfo.addEventListener((state) => {
             handleConnectivityChange(state.isConnected);
         });
@@ -51,26 +58,31 @@ const ScoreScreen = () => {
             Alert.alert('Please enter score');
             return;
         }
-
-         const newScores = [...scores, score].slice(-MAX_SCORES);
-       
-
-
+    
+        const scoreNumber = Number(score);
+        if (isNaN(scoreNumber)) {
+            Alert.alert('Please enter a valid score');
+            return;
+        }
+    
+        const newScores = [...scores, scoreNumber].slice(-MAX_SCORES);
+    
         try {
             if (isConnected) {
-                await saveScoreToAPI(score);
+                await saveScoreToAPI(scoreNumber);
                 Alert.alert('Score saved in server');
             } else {
-                await saveScoreLocally(score);
+                await saveScoreLocally(scoreNumber);
                 Alert.alert('Score saved locally');
             }
-            await AsyncStorage.setItem(SCORES_KEY,JSON.stringify(newScores));
+            await AsyncStorage.setItem(SCORES_KEY, JSON.stringify(newScores));
             setScores(newScores);
             setScore('');
         } catch (error) {
             console.log('Error saving score: ', error);
         }
     };
+    
 
     const saveScoreToAPI = async (score) => {
         try {
@@ -84,15 +96,24 @@ const ScoreScreen = () => {
 
     const saveScoreLocally = async (score) => {
         try {
-            const localScores = await AsyncStorage.getItem(SCORES_KEY);
-             const newLocalScores = [JSON.parse(localScores), score].slice(-MAX_SCORES);
-            //const newLocalScores = [JSON.parse(localScores), score].slice(-MAX_SCORES);
-
-            await AsyncStorage.setItem(SCORES_KEY, JSON.stringify(newLocalScores));
+          const localScores = await AsyncStorage.getItem(SCORES_KEY);
+          let newLocalScores = [];
+          if (localScores) {
+            const parsedScores = JSON.parse(localScores);
+            if (Array.isArray(parsedScores)) {
+              newLocalScores = [...parsedScores, score].slice(-MAX_SCORES);
+            } else {
+              newLocalScores.push(score);
+            }
+          } else {
+            newLocalScores.push(score);
+          }
+          await AsyncStorage.setItem(SCORES_KEY, JSON.stringify(newLocalScores));
         } catch (error) {
-            console.log('Error saving score locally: ', error);
+          console.log('Error saving score locally: ', error);
         }
-    };
+      };
+      
 
     const uploadLocalScores = async () => {
         try {
@@ -118,13 +139,13 @@ const ScoreScreen = () => {
             setScores(scoresData);
             console.log(scores);
         } catch (error) {
-            console.log(error);
+            console.log('Error fetching data',error);
         }
     };
 
-    useEffect(() => {
-        fetchScores();
-    }, []);
+    // useEffect(() => {
+    //     fetchScores();
+    // }, []);
 
 
 
@@ -206,7 +227,7 @@ const styles = StyleSheet.create({
     navView: {
         backgroundColor: '#FFA500',
         width: '100%',
-        height: '10%',
+        height: 50,
         justifyContent: 'center',
         //  alignItems:'center'
     },
